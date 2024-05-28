@@ -22,7 +22,7 @@ const SidebarProfile = () => {
                     <li className='mb-3'>
                         <NavLink to='/edit-profile' className="sidebar-nav">
                         <FaUserEdit className='h-5 w-5'/>
-                        Edit profile
+                        Змінити
                         </NavLink>
                     </li>
                     <li className='mb-3'>

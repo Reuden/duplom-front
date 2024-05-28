@@ -8,14 +8,14 @@ const ReviewCollection = () => {
     const {user} = useContext(AuthContext);
     const [userReviews, setUserReviews] = useState([]);
     useEffect(()=>{
-        fetch(`https://food-monster-server.vercel.app/${user?.uid}/reviews`)
+        fetch(`'http://localhost:5000/${user?.uid}/reviews`)
         .then(res=>res.json())
         .then(data=> setUserReviews(data))
     },[userReviews])
 
 
     const handleDelete = (_id) => {
-        fetch(`https://food-monster-server.vercel.app/reviews/${_id}`,{
+        fetch(`'http://localhost:5000/reviews/${_id}`,{
             method: 'DELETE'
         })
         .then(res=>res.json())

@@ -6,10 +6,8 @@ import image from '../../../assets/images/login.png';
 import { AuthContext } from '../../../context/AuthProvider';
 import toast, { Toaster } from 'react-hot-toast';
 
-
 const Login = () => {
-    
-    const {loginUser, googleSignIn, setLoading} = useContext(AuthContext);
+    const { loginUser, googleSignIn, setLoading } = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -22,28 +20,27 @@ const Login = () => {
         const password = form.password.value;
         
         loginUser(email, password)
-        .then(result=> {
+        .then(result => {
             const user = result.user;
             setLoading(false);
             form.reset();
-            setError('') 
+            setError('');
             setAuthToken(user);
-            toast.success('Login Successful')
-            navigate(from, {replace: true});
+            toast.success('Login Successful');
+            navigate(from, { replace: true });
         })
-        .catch(error=> setError(error))
-    }
+        .catch(error => setError(error.message)); // Встановлення лише текстової частини помилки
+    };
 
     const socialSignIn = () => {
         googleSignIn()
-        .then(result=> {
+        .then(result => {
             const user = result.user;
             setAuthToken(user);
-            navigate(from, {replace: true});
+            navigate(from, { replace: true });
         })
-        .catch(error=> setError(error))
-    }
-
+        .catch(error => setError(error.message)); // Встановлення лише текстової частини помилки
+    };
 
     return (
         <div className='flex flex-col md:flex-row items-center my-16 mx-5'>
@@ -68,18 +65,18 @@ const Login = () => {
                         </div>
                         <div className="form-control mt-2">
                             <input type="submit" className='btn' value="Login" />
-                            <Toaster></Toaster>
+                            <Toaster />
                         </div>
                     </form>
                     <label className="label">
-                        <Link className="label-text-alt link link-hover color-red Error">{error}</Link>
+                        <span className="label-text-alt link link-hover color-red Error">{error}</span> {/* Відображення тексту помилки */}
                     </label>
                     <div className='flex justify-center mb-5'>
-                        <Link onClick={socialSignIn} className='social-login  ml-3 flex items-center'>
-                        <FcGoogle className='mr-3'/>
-                        Continue with Google
-                        <Toaster/>
-                        </Link>
+                        <button onClick={socialSignIn} className='social-login ml-3 flex items-center'>
+                            <FcGoogle className='mr-3'/>
+                            Continue with Google
+                            <Toaster />
+                        </button>
                     </div>
                     <div className='mx-auto mb-5'>
                         <p>New to the Food Monster? <Link to="/signup" className='color-red'>Sign Up here</Link></p>

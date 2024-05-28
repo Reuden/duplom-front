@@ -1,21 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { BsStarFill, BsStarHalf } from 'react-icons/bs';
-import { RiEBike2Line } from 'react-icons/ri';
-import { BiCartAlt } from 'react-icons/bi';
 import { Link, useLoaderData } from 'react-router-dom';
 import './ServiceSingle.css';
 import { AuthContext } from '../../../../context/AuthProvider';
 import toast, { Toaster } from 'react-hot-toast';
 
-
 const ServiceSingle = () => {
-    const {user} = useContext(AuthContext)
+    const { user } = useContext(AuthContext);
     const service = useLoaderData();
-    const {_id, title, image_url, rating, location, amenities, details} = service;
+    const { _id, title, image_url, rating, location, amenities, details } = service;
     const [reviews, setReviews] = useState([]);
 
+    // Логування для перевірки даних
+    console.log('Service:', service);
+    console.log('Service ID:', _id);
 
-    const handleSubmit = event =>{
+    useEffect(() => {
+        if (_id) {
+            fetch(`http://localhost:5000/reviews/${_id}`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log('Fetched reviews:', data); // Додано для логування відгуків
+                    setReviews(data);
+                })
+                .catch(error => console.error('Error fetching reviews:', error));
+        }
+    }, [_id]);
+
+    const handleSubmit = event => {
         event.preventDefault();
         const form = event.target;
         const review = form.review.value;
@@ -28,32 +40,23 @@ const ServiceSingle = () => {
             serviceImgURL: image_url,
             details: review
         }
-        fetch('https://food-monster-server.vercel.app/reviews/', {
+        fetch('http://localhost:5000/reviews/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-            })
+        })
             .then((response) => response.json())
             .then((data) => {
-                toast.success('Review Added Successfully')
+                toast.success('Review Added Successfully');
                 form.reset();
+                setReviews(prevReviews => [...prevReviews, data]);  // Додайте новий відгук до списку
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
     }
-
-    useEffect(()=>{
-    fetch(`https://food-monster-server.vercel.app/reviews/${_id}`)
-        .then(res=> res.json())
-        .then(data=> setReviews(data))
-    },[reviews])
-
-    
-
-
 
     return (
         <div>
@@ -70,7 +73,7 @@ const ServiceSingle = () => {
             </div>
             <div className='mx-24'>
                 <div className='mt-10'>
-                    <h2 className='font-semibold text-2xl'>Location</h2>
+                    <h2 className='font-semibold text-2xl'>Адреса:</h2>
                     <div className='w-full md:w-6/12 my-2'>
                         <div>{location}</div>
                     </div>
@@ -78,7 +81,7 @@ const ServiceSingle = () => {
                 <div className="divider"></div>
                 {amenities ? <div>
                     <div className='mb-2'>
-                    <h2 className='font-semibold text-2xl mb-3'>About the business</h2>
+                    <h2 className='font-semibold text-2xl mb-3'>Інформація про заклад</h2>
                     {details?.specialties && 
                     <div className='my-2'>
                         <h2 className='font-semibold text-md mb-2'>Specialties</h2>
@@ -86,18 +89,17 @@ const ServiceSingle = () => {
                     </div>}
                     {details?.history && 
                     <div className='my-2'>
-                        <h2 className='font-semibold text-md mb-2'>History</h2>
+                        <h2 className='font-semibold text-md mb-2'>Історія</h2>
                         {details.history}    
                     </div>}
                 </div>
                 <div className="divider"></div>
                 </div> : <></>}
                 
-                
                 <div>
-                    <h2 className='font-semibold text-2xl mb-2'>Recommended Reviews</h2>
+                    <h2 className='font-semibold text-2xl mb-2'>Відгуки</h2>
                     <div>
-                        {reviews ? reviews.map(review=> 
+                        {reviews.length ? reviews.map(review => 
                             <div key={review._id} className="card bg-base-100 shadow-xl my-4">
                                 <div className="card-body">
                                     <>  

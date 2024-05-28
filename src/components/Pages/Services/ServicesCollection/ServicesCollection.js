@@ -33,7 +33,7 @@ const ServicesCollection = () => {
                                     </div>
                                     <p>{service.details.specialties.slice(0, 100) + '...'}</p>
                                     <div className="card-actions justify-end">
-                                    <Link to={`/services/${service._id}`} className="badge">More</Link>
+                                    <Link to={`/services/${service._id}`} className="badge">Більше</Link>
                                     </div>
                                 </div>
                             </div>

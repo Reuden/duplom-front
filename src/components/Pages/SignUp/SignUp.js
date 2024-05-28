@@ -61,22 +61,22 @@ const SignUp = () => {
             <div className='w-full md:w-6/12'>
                 <div className="card flex-shrink-0 w-full max-w-xl mx-auto shadow-2xl bg-base-100">
                     <form onSubmit={handleSubmit} className="card-body form pb-5">
-                        <h2 className='font-bold color-red text-center mb-4'>Create an account</h2>
+                        <h2 className='font-bold color-red text-center mb-4'>Створити акаунт</h2>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text">Name</span>
+                                <span className="label-text">Ім'я</span>
                             </label>
                             <input type="text" name='name' placeholder="Your Name" className="input input-bordered" />
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text">Email</span>
+                                <span className="label-text">Ел.пошта</span>
                             </label>
                             <input type="text" name='email' placeholder="email" className="input input-bordered" />
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text">Password</span>
+                                <span className="label-text">Пароль</span>
                             </label>
                             <input type="password" name='password' placeholder="password" className="input input-bordered" />
                         </div>
@@ -91,12 +91,12 @@ const SignUp = () => {
                     <div className='flex justify-center mb-5'>
                         <Link onClick={socialSignIn} className='social-login  ml-3 flex items-center'>
                         <FcGoogle className='mr-3'/>
-                        Continue with Google
+                        Продовжити за допомогою Google
                         <Toaster/>
                         </Link>
                     </div>
                     <div className='mx-auto mb-5'>
-                        <p>Already have an account? <Link to="/login" className='color-red'>Login here</Link></p>
+                        <p>Вже є обліковий запис? <Link to="/login" className='color-red'>Увійти тут</Link></p>
                     </div>
                 </div>
             </div>
